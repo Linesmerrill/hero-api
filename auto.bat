@@ -1,4 +1,4 @@
-@ECHO OFF &setlocal
+@ECHO OFF
 for /l %%x in (1, 1, 100) do (
     SET random=%RANDOM%
     echo %random% >> config.txt
