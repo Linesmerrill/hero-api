@@ -2,51 +2,43 @@
 #![plugin(rocket_codegen)]
 
 extern crate rocket;
-#[macro_use]
-extern crate rocket_contrib;
-#[macro_use]
-extern crate serde_derive;
-#[macro_use]
-extern crate diesel;
-extern crate r2d2;
-extern crate r2d2_diesel;
+#[macro_use] extern crate rocket_contrib;
+#[macro_use] extern crate serde_derive;
 
-mod db;
-mod schema;
 use rocket_contrib::{Json, Value};
 
 mod hero;
-use hero::Hero;
+use hero::{Hero};
 
 #[post("/", data = "<hero>")]
-fn create(hero: Json<Hero>, connection: db::Connection) -> Json<Hero> {
-    let insert = Hero { id: None, ..hero.into_inner() };
-    Json(Hero::create(insert, &connection))
+fn create(hero: Json<Hero>) -> Json<Hero> {
+  hero
 }
 
 #[get("/")]
-fn read(connection: db::Connection) -> Json<Value> {
-    Json(json!(Hero::read(&connection)))
+fn read() -> Json<Value> {
+  Json(json!([
+    "hero 1",
+    "hero 2"
+  ]))
 }
 
 #[put("/<id>", data = "<hero>")]
-fn update(id: i32, hero: Json<Hero>, connection: db::Connection) -> Json<Value> {
-    let update = Hero { id: Some(id), ..hero.into_inner() };
-    Json(json!({
-        "success": Hero::update(id, update, &connection)
-    }))
+fn update(id: i32, hero: Json<Hero>) -> Json<Hero> {
+  hero
 }
 
 #[delete("/<id>")]
-fn delete(id: i32, connection: db::Connection) -> Json<Value> {
-    Json(json!({
-        "success": Hero::delete(id, &connection)
-    }))
+fn delete(id: i32) -> Json<Value> {
+  Json(json!({"status": "ok"}))
 }
 
 fn main() {
   rocket::ignite()
+<<<<<<< HEAD
     .manage(db::connect())
+=======
+>>>>>>> 9acd817eb3815542dce208a1bc6bcef59e63b6a2
     .mount("/hero", routes![create, update, delete])
     .mount("/heroes", routes![read])
     .launch();
