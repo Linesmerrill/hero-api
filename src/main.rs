@@ -35,6 +35,10 @@ fn delete(id: i32) -> Json<Value> {
 
 fn main() {
   rocket::ignite()
+<<<<<<< HEAD
+    .manage(db::connect())
+=======
+>>>>>>> 9acd817eb3815542dce208a1bc6bcef59e63b6a2
     .mount("/hero", routes![create, update, delete])
     .mount("/heroes", routes![read])
     .launch();
