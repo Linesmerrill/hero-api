@@ -5,5 +5,6 @@ for /l %%x in (1, 1, 100) do (
     SET commitMsg=%%%random%%%
     call git add .
     call git commit -m %%commitMsg
+    call git pull
     call git push
 )
